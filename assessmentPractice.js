@@ -45,7 +45,11 @@ The data you're working with will look like this:
     @returns {Object[]} - A list of people that are employed by the given employer
 */
 
-function filterDataByEmployer(people, employer) {}
+function filterDataByEmployer(people, theEmployer) {
+    if (!people.length) throw "The `people` array is empty.";
+    const peopleList = people.filter(({employer}) => employer === theEmployer);
+    return peopleList;
+}
 
 /* 
     Returns the credit card details of every person in the given array. Each object in the array should look like: 
