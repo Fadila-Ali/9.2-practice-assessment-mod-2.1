@@ -64,7 +64,16 @@ function filterDataByEmployer(people, theEmployer) {
     @returns {Object[]} - Array of objects matching the pattern in this problem description.
 */
 
-function getCreditCardDetails(people) {}
+function getCreditCardDetails(people) {
+    if (!people.length || people === undefined) throw "The `people` array is empty.";
+    return people.map((el) => {
+        return {
+            name: `${el.first_name} ${el.last_name}`,
+            ...el.credit_card,
+        };
+        // {[name]: first_name + last_name, [number]: credit_card.number, [type]: credit_card.type};
+    });
+}
 
 /* 
     Returns a unique array of employers, sorted alphabetically from A-Z.
@@ -79,7 +88,16 @@ function getCreditCardDetails(people) {}
     @returns {String[]} - Array of employers, sorted alphabetically, unique values only.
 */
 
-function getAllEmployers(people) {}
+function getAllEmployers(people) {
+    if (!people.length) throw "The `people` array is empty.";
+    let arr = [];
+    people.forEach(({employer}) => {
+        if (!arr.includes(employer)) {
+            arr.push(employer);
+        }
+    });
+    return arr.sort();
+}
 
 /* 
     Finds a person by a given first name and last name from a list of people.
@@ -96,7 +114,13 @@ function getAllEmployers(people) {}
     @returns {Object} - Person with the given first and last name.
 */
 
-function getPersonByName(people, first, last) {}
+function getPersonByName(people, first, last) {
+    if (!people.length) throw "The `people` array is empty.";
+    // if (!first || !last) throw "Person with given name could not be found.";
+    const firstAndLast = people.find((el) => el.first_name === first && el.last_name === last);
+    if (!firstAndLast) throw "Person with given name could not be found.";
+    return firstAndLast;
+}
 
 /* 
     Determines whether any person has a given IP.
@@ -112,7 +136,10 @@ function getPersonByName(people, first, last) {}
     @returns {Boolean} - Whether we've found the IP address.
 */
 
-function ipIsPresent(people, ipAddress) {}
+function ipIsPresent(people, ipAddress) {
+    if (!people.length) throw "The `people` array is empty.";
+    return people.some(({ip_address}) => ip_address === ipAddress);
+}
 
 /* 
     An IP address is composed of four numbers, each separated by a dot. Each of those numbers will be between 1 and 255, with some additional rules that we won't get into here. We want to find all people that have IP addresses where all of those numbers in their IP address are greater than 100.
@@ -133,7 +160,11 @@ function ipIsPresent(people, ipAddress) {}
     @returns {Object[]} - Array of people matching the conditions in the description.
 */
 
-function findLargeOctets(people) {}
+function findLargeOctets(people) {
+    if (!people.length) throw "The `people` array is empty.";
+    const addresses = people.filter(({ip_address}) => ip_address.split(".").every((i) => i >= 100));
+    return addresses;
+}
 
 module.exports = {
     filterDataByEmployer,
